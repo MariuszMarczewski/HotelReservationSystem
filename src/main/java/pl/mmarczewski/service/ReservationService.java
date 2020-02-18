@@ -1,5 +1,6 @@
 package pl.mmarczewski.service;
 
+import org.springframework.stereotype.Service;
 import pl.mmarczewski.model.Reservation;
 import pl.mmarczewski.repositories.ReservationRepository;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
