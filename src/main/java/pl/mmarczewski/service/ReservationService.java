@@ -5,7 +5,6 @@ import pl.mmarczewski.model.Reservation;
 import pl.mmarczewski.repositories.ReservationRepository;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,26 +17,31 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public Long addReservation(Reservation reservation){
+    public Long addReservation(Reservation reservation) {
         return reservationRepository.save(reservation).getId();
     }
 
-    public void deleteReservation(Long id){
+    public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
 
-//    public Set<Reservation> getReservationByReservationId(Long id){
-//        if (id != null) {
-//            return reservationRepository.findById(id);
-//        }
-//        return reservationRepository.findAll();
-//    }
+    public void updateReservation(Long id, Reservation reservation) {
+        reservationRepository.deleteById(id);
+        reservationRepository.save(reservation);
+    }
 
-    public Set<Reservation> getReservationByGuestSecondName(String secondName){
-       if (secondName != null){
-           return reservationRepository.findReservationByGuestSecondName(secondName);
-       }
-       return new HashSet<>(reservationRepository.findAll());
+    public Optional<Reservation> getReservationByReservationId(Long id) {
+        if (id == null) {
+            return reservationRepository.findById(id);
+        }
+        return reservationRepository.findById(id);
+    }
+
+    public Set<Reservation> getReservationByGuestSecondName(String secondName) {
+        if (secondName != null) {
+            return reservationRepository.findReservationByGuestSecondName(secondName);
+        }
+        return new HashSet<>(reservationRepository.findAll());
     }
 
 }
