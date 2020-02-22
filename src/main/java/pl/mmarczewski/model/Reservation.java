@@ -3,6 +3,7 @@ package pl.mmarczewski.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -18,18 +19,27 @@ public class Reservation {
     private Guest guest;
     @ManyToOne(targetEntity = Room.class)
     private Room room;
-    @ManyToOne(targetEntity = Easement.class)
-    private Easement easement;
+    @ManyToMany(targetEntity = Easement.class)
+    private Set<Easement> easements;
 
     public Reservation() {
     }
 
-    public Reservation(LocalDate checkinDate, LocalDate checkoutDate, Guest guest, Room room, Easement easement) {
+    public Reservation(LocalDate checkinDate, LocalDate checkoutDate, Guest guest, Room room, Set<Easement> easements){
         this.checkinDate = checkinDate;
         this.checkoutDate = checkoutDate;
         this.guest = guest;
         this.room = room;
-        this.easement = easement;
+        this.easements = easements;
+    }
+
+    public Reservation(Long id, LocalDate checkinDate, LocalDate checkoutDate, Guest guest, Room room, Set<Easement> easements){
+        this.id = id;
+        this.checkinDate = checkinDate;
+        this.checkoutDate = checkoutDate;
+        this.guest = guest;
+        this.room = room;
+        this.easements = easements;
     }
 
     public Long getId() {
@@ -72,12 +82,12 @@ public class Reservation {
         this.room = room;
     }
 
-    public Easement getEasement() {
-        return easement;
+    public Set<Easement> getEasements() {
+        return easements;
     }
 
-    public void setEasement(Easement easement) {
-        this.easement = easement;
+    public void setEasements(Set<Easement> easements) {
+        this.easements = easements;
     }
 
     @Override
@@ -90,12 +100,12 @@ public class Reservation {
                 Objects.equals(checkoutDate, that.checkoutDate) &&
                 Objects.equals(guest, that.guest) &&
                 Objects.equals(room, that.room) &&
-                Objects.equals(easement, that.easement);
+                Objects.equals(easements, that.easements);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, checkinDate, checkoutDate, guest, room, easement);
+        return Objects.hash(id, checkinDate, checkoutDate, guest, room, easements);
     }
 
     @Override
@@ -106,7 +116,7 @@ public class Reservation {
                 ", checkoutDate=" + checkoutDate +
                 ", guest=" + guest +
                 ", room=" + room +
-                ", easement=" + easement +
+                ", easements=" + easements +
                 '}';
     }
 }

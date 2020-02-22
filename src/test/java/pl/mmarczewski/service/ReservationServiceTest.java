@@ -1,19 +1,13 @@
 package pl.mmarczewski.service;
 
-
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.mmarczewski.model.Easement;
-import pl.mmarczewski.model.Guest;
 import pl.mmarczewski.model.Reservation;
-import pl.mmarczewski.model.Room;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
@@ -48,26 +42,24 @@ public class ReservationServiceTest {
 
         //when
         Long idToDelete = sut.addReservation(reservation);
-//        assertThat(reservation).isNotNull();
-
         sut.deleteReservation(idToDelete);
-        assertThat(reservation.getId()).isEqualTo(4L);
+
+        //then
+        assertThat(sut.getReservationByReservationId(5L)).isNull();
     }
 
     @Test
     @Transactional
-    public void shouldReturnReservationId(){
+    public void shouldReturnReservationById(){
         //given
         Reservation reservation = new Reservation(LocalDate.parse("2020-01-29"), LocalDate.parse("2020-02-20"), null, null, null);
 
         //when
         Long idToAdd = sut.addReservation(reservation);
-        Optional<Reservation> actual = sut.getReservationByReservationId(5L);
+        Reservation actual = sut.getReservationByReservationId(5L);
 
         //then
-        assertThat(actual).isPresent();
-        assertThat(actual).isNotEmpty();
-        assertThat(actual).isEqualTo(Optional.of(reservation));
+        assertThat(actual).isEqualTo(reservation);
     }
 
     @Test
@@ -87,17 +79,14 @@ public class ReservationServiceTest {
     public void shouldUpdateReservation(){
         //given
         Reservation reservationToUpdate = new Reservation(LocalDate.parse("2020-01-29"), LocalDate.parse("2020-02-20"), null, null, null);
-        Reservation reservation = new Reservation(LocalDate.parse("2020-02-12"), LocalDate.parse("2020-02-22"), null, null, null);
+        Long id = sut.addReservation(reservationToUpdate);
+        Reservation reservation = new Reservation(id, LocalDate.parse("2020-02-12"), LocalDate.parse("2020-02-22"), null, null, null);
 
         //when
-
-        Long id = sut.addReservation(reservationToUpdate);
-        sut.updateReservation(5L, reservation);
+        Reservation actual = sut.updateReservation(reservation);
 
         //then
-
-        assertThat(reservationToUpdate).isNotNull();
-
+        assertThat(actual).isEqualTo(reservation);
     }
 
 }

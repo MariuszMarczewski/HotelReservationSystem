@@ -19,10 +19,20 @@ INSERT INTO guest (id, first_name, second_name, address, birth_date, phone_numbe
 INSERT INTO guest (id, first_name, second_name, address, birth_date, phone_number) VALUES (nextval('guest_seq'), 'guest3', 'welcomed3', 'Gdansk', '1988-01-01', '888');
 INSERT INTO guest (id, first_name, second_name, address, birth_date, phone_number) VALUES (nextval('guest_seq'), 'guest4', 'welcomed4', 'Radom', '1986-01-01', '999');
 
-INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id, easement_id) VALUES (nextval('reservation_seq'), '2020-01-01', '2020-01-02', 1L, 1L, 1L);
-INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id, easement_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 2L, 5L, 3L);
-INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id, easement_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 3L, 5L, 3L);
-INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id, easement_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 4L, 5L, 3L);
+INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id) VALUES (nextval('reservation_seq'), '2020-01-01', '2020-01-02', 1L, 1L);
+INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 2L, 5L);
+INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 3L, 5L);
+INSERT INTO reservation (id, checkin_date, checkout_date, guest_id, room_id) VALUES (nextval('reservation_seq'), '2020-01-11', '2020-01-14', 4L, 5L);
+
+insert into reservation_easements (reservation_id, easements_id) values (1L, 1L);
+insert into reservation_easements (reservation_id, easements_id) values (1L, 2L);
+insert into reservation_easements (reservation_id, easements_id) values (1L, 3L);
+insert into reservation_easements (reservation_id, easements_id) values (2L, 2L);
+insert into reservation_easements (reservation_id, easements_id) values (2L, 3L);
+insert into reservation_easements (reservation_id, easements_id) values (2L, 4L);
+insert into reservation_easements (reservation_id, easements_id) values (3L, 3L);
+insert into reservation_easements (reservation_id, easements_id) values (3L, 4L);
+insert into reservation_easements (reservation_id, easements_id) values (3L, 5L);
 
 commit;
 

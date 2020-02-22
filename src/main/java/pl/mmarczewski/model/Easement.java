@@ -1,9 +1,6 @@
 package pl.mmarczewski.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -16,6 +13,9 @@ public class Easement {
     private Long id;
     private String name;
     private BigDecimal pricePln;
+
+    @Transient
+    private BigDecimal price_eur;
 
     public Easement() {
     }
@@ -50,6 +50,10 @@ public class Easement {
         this.pricePln = pricePln;
     }
 
+    public BigDecimal getPrice_eur() {
+        return price_eur;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,13 +61,26 @@ public class Easement {
         Easement easement = (Easement) o;
         return Objects.equals(id, easement.id) &&
                 Objects.equals(name, easement.name) &&
-                Objects.equals(pricePln, easement.pricePln);
+                Objects.equals(pricePln, easement.pricePln) &&
+                Objects.equals(price_eur, easement.price_eur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, pricePln);
+        return Objects.hash(id, name, pricePln, price_eur);
     }
 
+    public void setPrice_eur(BigDecimal price_eur) {
+        this.price_eur = price_eur;
+    }
 
+    @Override
+    public String toString() {
+        return "Easement{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pricePln=" + pricePln +
+                ", price_eur=" + price_eur +
+                '}';
+    }
 }

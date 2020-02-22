@@ -1,14 +1,11 @@
 package pl.mmarczewski.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-public class    Room {
+public class Room {
 
     @Id
     @GeneratedValue(generator = "roomSeq")
@@ -16,6 +13,9 @@ public class    Room {
     private Long id;
     private int roomType;
     private BigDecimal price;
+
+    @Transient
+    private BigDecimal price_eur;
 
     public Room() {
     }
@@ -50,6 +50,14 @@ public class    Room {
         this.price = pricePLN;
     }
 
+    public BigDecimal getPrice_eur() {
+        return price_eur;
+    }
+
+    public void setPrice_eur(BigDecimal price_eur) {
+        this.price_eur = price_eur;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,12 +65,13 @@ public class    Room {
         Room room = (Room) o;
         return roomType == room.roomType &&
                 Objects.equals(id, room.id) &&
-                Objects.equals(price, room.price);
+                Objects.equals(price, room.price) &&
+                Objects.equals(price_eur, room.price_eur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, roomType, price);
+        return Objects.hash(id, roomType, price, price_eur);
     }
 
     @Override
@@ -70,7 +79,8 @@ public class    Room {
         return "Room{" +
                 "id=" + id +
                 ", roomType=" + roomType +
-                ", pricePLN=" + price +
+                ", price=" + price +
+                ", price_eur=" + price_eur +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package pl.mmarczewski.service;
 
 import org.springframework.stereotype.Service;
+import pl.mmarczewski.exceptions.ReservationNotFoundException;
 import pl.mmarczewski.model.Reservation;
 import pl.mmarczewski.repositories.ReservationRepository;
 
@@ -25,22 +26,25 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    public void updateReservation(Long id, Reservation reservation) {
-        reservationRepository.deleteById(id);
-        reservationRepository.save(reservation);
+    public Reservation updateReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
     }
 
-    public Optional<Reservation> getReservationByReservationId(Long id) {
-        if (id == null) {
-            return reservationRepository.findById(id);
+    public Reservation getReservationByReservationId(Long id) {
+        if (id != null) {
+            return reservationRepository.getOne(id);
         }
-        return reservationRepository.findById(id);
+        throw new ReservationNotFoundException("id cannot be null");
     }
 
     public Set<Reservation> getReservationByGuestSecondName(String secondName) {
         if (secondName != null) {
             return reservationRepository.findReservationByGuestSecondName(secondName);
         }
+        return new HashSet<>(reservationRepository.findAll());
+    }
+
+    public Set<Reservation> findAll(){
         return new HashSet<>(reservationRepository.findAll());
     }
 
